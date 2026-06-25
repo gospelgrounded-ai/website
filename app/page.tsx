@@ -6,33 +6,6 @@ import { stats } from '@/lib/site';
 
 const videos = allVideos.slice(0, 3);
 
-const posts = [
-  {
-    slug: 'placeholder-a',
-    title: 'The Gospel Is Not The Diving Board, It Is The Pool',
-    excerpt:
-      'We treat grace as the entry point and effort as the rest. Scripture tells a better story.',
-    category: 'Theology',
-    readTime: '6 min',
-  },
-  {
-    slug: 'placeholder-b',
-    title: 'Three Habits That Quietly Shape Your Faith',
-    excerpt:
-      'Discipleship is rarely dramatic. It is the small, repeated things that form us most.',
-    category: 'Discipleship',
-    readTime: '4 min',
-  },
-  {
-    slug: 'placeholder-c',
-    title: 'What The Cross Says About Your Worth',
-    excerpt:
-      'Your value was never up for debate. Calvary settled the question once for all.',
-    category: 'Gospel',
-    readTime: '5 min',
-  },
-];
-
 export default function Home() {
   return (
     <>
@@ -112,55 +85,6 @@ export default function Home() {
           {videos.map((v) => (
             <VideoCard key={v.id} video={v} />
           ))}
-        </div>
-      </section>
-
-      {/* Blog grid */}
-      <section className="border-t border-line bg-surface/30">
-        <div className="container-px mx-auto max-w-7xl py-24">
-          <div className="flex items-end justify-between gap-4">
-            <div>
-              <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
-                From the blog
-              </h2>
-              <p className="mt-2 text-muted">
-                Short reads, long-lasting truth.
-              </p>
-            </div>
-            <Link
-              href="/blog"
-              className="hidden shrink-0 text-sm font-semibold text-brand hover:underline sm:inline"
-            >
-              Read more →
-            </Link>
-          </div>
-
-          <div className="mt-10 grid gap-6 md:grid-cols-3">
-            {posts.map((p) => (
-              <Link
-                key={p.slug}
-                href="/blog"
-                className="group flex flex-col rounded-2xl border border-line bg-surface p-6 transition-colors hover:border-muted2"
-              >
-                <div className="flex items-center gap-3 text-xs text-muted2">
-                  <span className="font-semibold uppercase tracking-wider text-brand">
-                    {p.category}
-                  </span>
-                  <span>·</span>
-                  <span>{p.readTime} read</span>
-                </div>
-                <h3 className="mt-3 text-lg font-semibold leading-snug transition-colors group-hover:text-brand">
-                  {p.title}
-                </h3>
-                <p className="mt-2 flex-1 text-sm leading-relaxed text-muted">
-                  {p.excerpt}
-                </p>
-                <span className="mt-4 text-sm font-semibold text-brand">
-                  Read article →
-                </span>
-              </Link>
-            ))}
-          </div>
         </div>
       </section>
 
