@@ -125,32 +125,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Podcast teaser */}
-      <section className="border-y border-line bg-surface/30">
-        <div className="container-px mx-auto max-w-7xl py-20">
-          <div className="flex flex-col items-start gap-8 rounded-3xl border border-line bg-bg p-8 sm:p-12 lg:flex-row lg:items-center lg:justify-between">
-            <div className="max-w-xl">
-              <span className="text-xs font-semibold uppercase tracking-wider text-brand">
-                The podcast
-              </span>
-              <h2 className="mt-3 text-2xl font-bold tracking-tight sm:text-3xl">
-                Conversations on faith, doubt, and everything in between
-              </h2>
-              <p className="mt-4 leading-relaxed text-muted">
-                New episodes most weeks. Honest, gospel-shaped conversations you
-                can take with you on the commute, the walk, or the dishes.
-              </p>
-            </div>
-            <Link
-              href="/podcast"
-              className="shrink-0 rounded-full bg-brand px-7 py-3.5 text-sm font-semibold text-bg transition-opacity hover:opacity-90"
-            >
-              Listen now
-            </Link>
-          </div>
-        </div>
-      </section>
-
       {/* Newsletter CTA */}
       <section className="container-px mx-auto max-w-7xl py-24">
         <div className="relative overflow-hidden rounded-3xl border border-line bg-surface p-10 text-center sm:p-16">
