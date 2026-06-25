@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import VideoCard from '@/components/VideoCard';
+import Reveal from '@/components/Reveal';
 import { videos } from '@/lib/videos';
 import { site } from '@/lib/site';
 
@@ -16,13 +17,22 @@ export default function Watch() {
         <div className="absolute inset-0 bg-grid opacity-50" />
         <div className="absolute inset-0 bg-teal-glow" />
         <div className="container-px relative mx-auto max-w-7xl pb-14 pt-36 sm:pt-40">
-          <span className="text-xs font-semibold uppercase tracking-wider text-brand">
+          <span
+            className="inline-block animate-fade-up text-xs font-semibold uppercase tracking-wider text-brand"
+            style={{ animationDelay: '0ms' }}
+          >
             Watch
           </span>
-          <h1 className="mt-4 max-w-2xl text-balance text-4xl font-extrabold leading-[1.08] tracking-tightest sm:text-5xl lg:text-6xl">
+          <h1
+            className="mt-4 max-w-2xl animate-fade-up text-balance text-4xl font-extrabold leading-[1.08] tracking-tightest sm:text-5xl lg:text-6xl"
+            style={{ animationDelay: '90ms' }}
+          >
             Teaching you can watch, anytime
           </h1>
-          <p className="mt-5 max-w-xl text-lg leading-relaxed text-muted">
+          <p
+            className="mt-5 max-w-xl animate-fade-up text-lg leading-relaxed text-muted"
+            style={{ animationDelay: '180ms' }}
+          >
             New teaching most days — working through Scripture passage by
             passage, drawing out the gospel from every page. Here are the latest.
           </p>
@@ -31,12 +41,14 @@ export default function Watch() {
 
       <section className="container-px mx-auto max-w-7xl py-16">
         <div className="grid gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3">
-          {videos.map((v) => (
-            <VideoCard key={v.id} video={v} />
+          {videos.map((v, i) => (
+            <Reveal key={v.id} delay={(i % 3) * 110}>
+              <VideoCard video={v} />
+            </Reveal>
           ))}
         </div>
 
-        <div className="mt-14 flex flex-col items-center justify-center gap-4 rounded-3xl border border-line bg-surface p-10 text-center">
+        <Reveal className="mt-14 flex flex-col items-center justify-center gap-4 rounded-3xl border border-line bg-surface p-10 text-center">
           <h2 className="text-2xl font-bold tracking-tight">
             There&apos;s plenty more where this came from
           </h2>
@@ -55,7 +67,7 @@ export default function Watch() {
             </svg>
             Visit the channel
           </a>
-        </div>
+        </Reveal>
       </section>
     </>
   );

@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import NewsletterForm from '@/components/NewsletterForm';
+import Reveal from '@/components/Reveal';
 import { site } from '@/lib/site';
 
 export const metadata: Metadata = {
@@ -29,7 +30,7 @@ export default function Shop() {
       </section>
 
       <section className="container-px mx-auto max-w-7xl py-24">
-        <div className="relative overflow-hidden rounded-3xl border border-line bg-surface p-10 text-center sm:p-16">
+        <Reveal className="relative overflow-hidden rounded-3xl border border-line bg-surface p-10 text-center sm:p-16">
           <div className="absolute inset-0 bg-teal-glow opacity-70" />
           <div className="relative mx-auto max-w-xl">
             <span className="inline-flex items-center gap-2 rounded-full border border-line bg-bg/60 px-4 py-1.5 text-xs font-medium text-muted backdrop-blur">
@@ -61,7 +62,7 @@ export default function Shop() {
               .
             </p>
           </div>
-        </div>
+        </Reveal>
       </section>
     </>
   );

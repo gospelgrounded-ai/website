@@ -54,3 +54,36 @@
     text-wrap: balance;
   }
 }
+
+/* ---- Scroll reveal -------------------------------------------------------
+   Elements get the `reveal` class. They only START hidden once JS has marked
+   the document with `.js` (set synchronously in the layout), so without
+   JavaScript everything renders fully visible — no hidden content, no FOUC.
+   The IntersectionObserver in <Reveal> adds `is-visible` when in view.        */
+.js .reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  transition-delay: var(--reveal-delay, 0ms);
+  will-change: opacity, transform;
+}
+
+.js .reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+  }
+  .js .reveal {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+}

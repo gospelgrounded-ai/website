@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import Image from 'next/image';
+import Reveal from '@/components/Reveal';
 
 export const metadata: Metadata = {
   title: 'About',
@@ -46,19 +47,31 @@ export default function About() {
         <div className="container-px relative mx-auto max-w-7xl pb-16 pt-36 sm:pt-40">
           <div className="grid items-center gap-12 lg:grid-cols-[1.2fr_1fr]">
             <div>
-              <span className="text-xs font-semibold uppercase tracking-wider text-brand">
+              <span
+                className="inline-block animate-fade-up text-xs font-semibold uppercase tracking-wider text-brand"
+                style={{ animationDelay: '0ms' }}
+              >
                 About
               </span>
-              <h1 className="mt-4 text-balance text-4xl font-extrabold leading-[1.08] tracking-tightest sm:text-5xl lg:text-6xl">
+              <h1
+                className="mt-4 animate-fade-up text-balance text-4xl font-extrabold leading-[1.08] tracking-tightest sm:text-5xl lg:text-6xl"
+                style={{ animationDelay: '90ms' }}
+              >
                 From milk to meat
               </h1>
-              <p className="mt-6 max-w-xl text-lg leading-relaxed text-muted">
+              <p
+                className="mt-6 max-w-xl animate-fade-up text-lg leading-relaxed text-muted"
+                style={{ animationDelay: '180ms' }}
+              >
                 Gospel Grounded is a teaching ministry built on a single
                 conviction: the Body of Christ was made for maturity. This is a
                 call to grow up into all that Christ has for you.
               </p>
             </div>
-            <div className="relative aspect-[4/5] overflow-hidden rounded-3xl border border-line bg-surface">
+            <div
+              className="relative aspect-[4/5] animate-fade-up overflow-hidden rounded-3xl border border-line bg-surface"
+              style={{ animationDelay: '240ms' }}
+            >
               <Image
                 src="/webster.png"
                 alt="Webster — founder of Gospel Grounded"
@@ -74,7 +87,7 @@ export default function About() {
 
       {/* Bio */}
       <section className="container-px mx-auto max-w-3xl py-20">
-        <div className="space-y-5 text-lg leading-relaxed text-muted">
+        <Reveal className="space-y-5 text-lg leading-relaxed text-muted">
           <p>
             Gospel Grounded exists to help believers grow from spiritual milk to
             spiritual meat. The ministry was born from a single, unshakable
@@ -94,7 +107,7 @@ export default function About() {
             believers who can be confident that they will one day hear the words,
             &ldquo;Well done, good and faithful servant.&rdquo;
           </p>
-        </div>
+        </Reveal>
       </section>
 
       {/* Core values */}
@@ -105,8 +118,9 @@ export default function About() {
           </h2>
           <div className="mt-10 grid gap-6 sm:grid-cols-2">
             {values.map((v, i) => (
-              <div
+              <Reveal
                 key={v.title}
+                delay={(i % 2) * 110}
                 className="rounded-2xl border border-line bg-bg p-7"
               >
                 <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-brand/10 text-sm font-bold text-brand">
@@ -114,7 +128,7 @@ export default function About() {
                 </div>
                 <h3 className="mt-4 text-lg font-semibold">{v.title}</h3>
                 <p className="mt-2 leading-relaxed text-muted">{v.body}</p>
-              </div>
+              </Reveal>
             ))}
           </div>
         </div>
@@ -122,12 +136,14 @@ export default function About() {
 
       {/* What we believe */}
       <section className="container-px mx-auto max-w-3xl py-20">
-        <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
-          What we believe
-        </h2>
-        <p className="mt-3 text-muted">
-          The historic, essential convictions of the Christian faith.
-        </p>
+        <Reveal>
+          <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
+            What we believe
+          </h2>
+          <p className="mt-3 text-muted">
+            The historic, essential convictions of the Christian faith.
+          </p>
+        </Reveal>
         <ul className="mt-8 space-y-4">
           {beliefs.map((b) => (
             <li key={b} className="flex items-start gap-4">

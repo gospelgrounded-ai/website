@@ -2,6 +2,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import NewsletterForm from '@/components/NewsletterForm';
 import VideoCard from '@/components/VideoCard';
+import Reveal from '@/components/Reveal';
 import { videos as allVideos } from '@/lib/videos';
 import { stats } from '@/lib/site';
 
@@ -16,20 +17,32 @@ export default function Home() {
         <div className="absolute inset-0 bg-teal-glow" />
         <div className="container-px relative mx-auto max-w-7xl pb-24 pt-36 sm:pt-40">
           <div className="mx-auto max-w-3xl text-center">
-            <span className="inline-flex items-center gap-2 rounded-full border border-line bg-surface/60 px-4 py-1.5 text-xs font-medium text-muted backdrop-blur">
+            <span
+              className="inline-flex animate-fade-up items-center gap-2 rounded-full border border-line bg-surface/60 px-4 py-1.5 text-xs font-medium text-muted backdrop-blur"
+              style={{ animationDelay: '0ms' }}
+            >
               <span className="h-1.5 w-1.5 rounded-full bg-brand" />
               Faith · Theology · Gospel teaching
             </span>
-            <h1 className="mt-7 text-balance text-5xl font-extrabold leading-[1.05] tracking-tightest sm:text-6xl lg:text-7xl">
+            <h1
+              className="mt-7 animate-fade-up text-balance text-5xl font-extrabold leading-[1.05] tracking-tightest sm:text-6xl lg:text-7xl"
+              style={{ animationDelay: '90ms' }}
+            >
               Stay grounded in the{' '}
               <span className="text-brand">gospel</span>.
             </h1>
-            <p className="mx-auto mt-6 max-w-xl text-balance text-lg leading-relaxed text-muted">
+            <p
+              className="mx-auto mt-6 animate-fade-up text-balance text-lg leading-relaxed text-muted"
+              style={{ animationDelay: '180ms' }}
+            >
               Helping believers grow from spiritual milk to spiritual meat.
               Clear, daily teaching through Scripture — equipping the Body of
               Christ for maturity, not perpetual infancy.
             </p>
-            <div className="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row">
+            <div
+              className="mt-9 flex animate-fade-up flex-col items-center justify-center gap-3 sm:flex-row"
+              style={{ animationDelay: '270ms' }}
+            >
               <Link
                 href="/watch"
                 className="w-full rounded-full bg-brand px-7 py-3.5 text-sm font-semibold text-bg transition-opacity hover:opacity-90 sm:w-auto"
@@ -50,41 +63,45 @@ export default function Home() {
       {/* Stats strip */}
       <section className="border-y border-line bg-surface/40">
         <div className="container-px mx-auto grid max-w-7xl grid-cols-2 divide-x divide-line md:grid-cols-4">
-          {stats.map((s) => (
-            <div key={s.label} className="px-6 py-8 text-center">
+          {stats.map((s, i) => (
+            <Reveal key={s.label} delay={i * 90} className="px-6 py-8 text-center">
               <div className="text-3xl font-extrabold tracking-tight text-white">
                 {s.value}
               </div>
               <div className="mt-1 text-xs font-medium uppercase tracking-wider text-muted2">
                 {s.label}
               </div>
-            </div>
+            </Reveal>
           ))}
         </div>
       </section>
 
       {/* Latest videos */}
       <section className="container-px mx-auto max-w-7xl py-24">
-        <div className="flex items-end justify-between gap-4">
-          <div>
-            <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
-              Latest teaching
-            </h2>
-            <p className="mt-2 text-muted">
-              Fresh videos to help you go deeper.
-            </p>
+        <Reveal>
+          <div className="flex items-end justify-between gap-4">
+            <div>
+              <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
+                Latest teaching
+              </h2>
+              <p className="mt-2 text-muted">
+                Fresh videos to help you go deeper.
+              </p>
+            </div>
+            <Link
+              href="/watch"
+              className="hidden shrink-0 text-sm font-semibold text-brand hover:underline sm:inline"
+            >
+              View all →
+            </Link>
           </div>
-          <Link
-            href="/watch"
-            className="hidden shrink-0 text-sm font-semibold text-brand hover:underline sm:inline"
-          >
-            View all →
-          </Link>
-        </div>
+        </Reveal>
 
         <div className="mt-10 grid gap-6 md:grid-cols-3">
-          {videos.map((v) => (
-            <VideoCard key={v.id} video={v} />
+          {videos.map((v, i) => (
+            <Reveal key={v.id} delay={i * 110}>
+              <VideoCard video={v} />
+            </Reveal>
           ))}
         </div>
       </section>
@@ -92,7 +109,7 @@ export default function Home() {
       {/* About teaser */}
       <section className="container-px mx-auto max-w-7xl py-24">
         <div className="grid items-center gap-12 lg:grid-cols-2">
-          <div className="relative aspect-[4/5] overflow-hidden rounded-3xl border border-line bg-surface">
+          <Reveal className="relative aspect-[4/5] overflow-hidden rounded-3xl border border-line bg-surface">
             <Image
               src="/webster.png"
               alt="Webster — founder of Gospel Grounded"
@@ -101,8 +118,8 @@ export default function Home() {
               className="object-cover"
               priority
             />
-          </div>
-          <div>
+          </Reveal>
+          <Reveal delay={120}>
             <span className="text-xs font-semibold uppercase tracking-wider text-brand">
               About
             </span>
@@ -125,13 +142,13 @@ export default function Home() {
             >
               Read the full story
             </Link>
-          </div>
+          </Reveal>
         </div>
       </section>
 
       {/* Newsletter CTA */}
       <section className="container-px mx-auto max-w-7xl py-24">
-        <div className="relative overflow-hidden rounded-3xl border border-line bg-surface p-10 text-center sm:p-16">
+        <Reveal className="relative overflow-hidden rounded-3xl border border-line bg-surface p-10 text-center sm:p-16">
           <div className="absolute inset-0 bg-teal-glow opacity-70" />
           <div className="relative mx-auto max-w-xl">
             <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
@@ -148,28 +165,30 @@ export default function Home() {
               No spam. Unsubscribe anytime.
             </p>
           </div>
-        </div>
+        </Reveal>
       </section>
 
       {/* Shop teaser */}
       <section className="border-t border-line">
         <div className="container-px mx-auto max-w-7xl py-20 text-center">
-          <span className="text-xs font-semibold uppercase tracking-wider text-brand">
-            Resources
-          </span>
-          <h2 className="mt-3 text-3xl font-bold tracking-tight sm:text-4xl">
-            Tools to help you grow
-          </h2>
-          <p className="mx-auto mt-3 max-w-lg text-muted">
-            Studies, guides, and resources designed to take you from inspired to
-            equipped.
-          </p>
-          <Link
-            href="/shop"
-            className="mt-8 inline-flex rounded-full bg-brand px-7 py-3.5 text-sm font-semibold text-bg transition-opacity hover:opacity-90"
-          >
-            Browse the shop
-          </Link>
+          <Reveal>
+            <span className="text-xs font-semibold uppercase tracking-wider text-brand">
+              Resources
+            </span>
+            <h2 className="mt-3 text-3xl font-bold tracking-tight sm:text-4xl">
+              Tools to help you grow
+            </h2>
+            <p className="mx-auto mt-3 max-w-lg text-muted">
+              Studies, guides, and resources designed to take you from inspired
+              to equipped.
+            </p>
+            <Link
+              href="/shop"
+              className="mt-8 inline-flex rounded-full bg-brand px-7 py-3.5 text-sm font-semibold text-bg transition-opacity hover:opacity-90"
+            >
+              Browse the shop
+            </Link>
+          </Reveal>
         </div>
       </section>
     </>

@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import ContactForm from '@/components/ContactForm';
 import NewsletterForm from '@/components/NewsletterForm';
+import Reveal from '@/components/Reveal';
 import { socials } from '@/lib/site';
 
 export const metadata: Metadata = {
@@ -16,13 +17,22 @@ export default function Contact() {
         <div className="absolute inset-0 bg-grid opacity-50" />
         <div className="absolute inset-0 bg-teal-glow" />
         <div className="container-px relative mx-auto max-w-7xl pb-14 pt-36 sm:pt-40">
-          <span className="text-xs font-semibold uppercase tracking-wider text-brand">
+          <span
+            className="inline-block animate-fade-up text-xs font-semibold uppercase tracking-wider text-brand"
+            style={{ animationDelay: '0ms' }}
+          >
             Contact
           </span>
-          <h1 className="mt-4 max-w-2xl text-balance text-4xl font-extrabold leading-[1.08] tracking-tightest sm:text-5xl lg:text-6xl">
+          <h1
+            className="mt-4 max-w-2xl animate-fade-up text-balance text-4xl font-extrabold leading-[1.08] tracking-tightest sm:text-5xl lg:text-6xl"
+            style={{ animationDelay: '90ms' }}
+          >
             Let&apos;s talk
           </h1>
-          <p className="mt-5 max-w-xl text-lg leading-relaxed text-muted">
+          <p
+            className="mt-5 max-w-xl animate-fade-up text-lg leading-relaxed text-muted"
+            style={{ animationDelay: '180ms' }}
+          >
             Whether it&apos;s a question, an invitation, or a prayer request —
             I&apos;d genuinely love to hear from you.
           </p>
@@ -32,7 +42,7 @@ export default function Contact() {
       <section className="container-px mx-auto max-w-7xl py-16">
         <div className="grid gap-12 lg:grid-cols-[1.3fr_1fr]">
           {/* Form */}
-          <div className="rounded-3xl border border-line bg-surface/40 p-7 sm:p-9">
+          <Reveal className="rounded-3xl border border-line bg-surface/40 p-7 sm:p-9">
             <h2 className="text-xl font-semibold">Send a message</h2>
             <p className="mt-1 text-sm text-muted">
               Fill this in and it&apos;ll come straight to my inbox.
@@ -40,10 +50,10 @@ export default function Contact() {
             <div className="mt-7">
               <ContactForm />
             </div>
-          </div>
+          </Reveal>
 
           {/* Side */}
-          <div className="space-y-8">
+          <Reveal delay={120} className="space-y-8">
             {/* Prayer */}
             <div
               id="prayer"
@@ -97,7 +107,7 @@ export default function Contact() {
                 <NewsletterForm variant="inline" />
               </div>
             </div>
-          </div>
+          </Reveal>
         </div>
       </section>
     </>

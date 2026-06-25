@@ -49,7 +49,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={poppins.variable}>
+    <html lang="en" className={poppins.variable} suppressHydrationWarning>
+      <head>
+        {/* Mark the document as JS-enabled before paint so scroll-reveal
+            elements start hidden only when animation can actually run. */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: "document.documentElement.classList.add('js')",
+          }}
+        />
+      </head>
       <body className="min-h-screen bg-bg font-sans tracking-tight text-white">
         <Nav />
         <main>{children}</main>
