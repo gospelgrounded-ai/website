@@ -1,19 +1,13 @@
 import type { Metadata } from 'next';
 import ContactForm from '@/components/ContactForm';
 import NewsletterForm from '@/components/NewsletterForm';
+import { socials } from '@/lib/site';
 
 export const metadata: Metadata = {
   title: 'Contact',
   description:
     'Get in touch with Gospel Grounded — questions, collaboration, prayer requests, and more.',
 };
-
-const socials = [
-  { label: 'YouTube', handle: '@gospelgrounded', href: '#' },
-  { label: 'Instagram', handle: '@gospelgrounded', href: '#' },
-  { label: 'Facebook', handle: 'Gospel Grounded', href: '#' },
-  { label: 'Spotify', handle: 'Gospel Grounded', href: '#' },
-];
 
 export default function Contact() {
   return (
@@ -76,6 +70,8 @@ export default function Contact() {
                   <li key={s.label}>
                     <a
                       href={s.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
                       className="flex items-center justify-between rounded-xl border border-line bg-bg px-4 py-3 transition-colors hover:border-brand"
                     >
                       <span className="text-sm font-medium text-white">

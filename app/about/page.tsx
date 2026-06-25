@@ -49,12 +49,12 @@ export default function About() {
                 About
               </span>
               <h1 className="mt-4 text-balance text-4xl font-extrabold leading-[1.08] tracking-tightest sm:text-5xl lg:text-6xl">
-                Faithful teaching, grounded in the gospel
+                From milk to meat
               </h1>
               <p className="mt-6 max-w-xl text-lg leading-relaxed text-muted">
-                Gospel Grounded is a teaching ministry built on a simple
-                conviction: the gospel is good news worth understanding deeply
-                and sharing clearly.
+                Gospel Grounded is a teaching ministry built on a single
+                conviction: the Body of Christ was made for maturity. This is a
+                call to grow up into all that Christ has for you.
               </p>
             </div>
             <div className="relative aspect-[4/5] overflow-hidden rounded-3xl border border-line bg-surface">
@@ -72,24 +72,23 @@ export default function About() {
       <section className="container-px mx-auto max-w-3xl py-20">
         <div className="space-y-5 text-lg leading-relaxed text-muted">
           <p>
-            Hi — I&apos;m glad you&apos;re here.{' '}
+            Gospel Grounded exists to help believers grow from spiritual milk to
+            spiritual meat. The ministry was born from a single, unshakable
+            conviction —{' '}
             <span className="text-white">
-              [Your name goes here — this is placeholder copy ready for your real
-              story.]
-            </span>{' '}
-            Gospel Grounded started from a desire to make the depth of the
-            Christian faith accessible without watering it down.
+              one Webster found waiting for him in Hebrews 5:12&ndash;14: the Body
+              of Christ was made for maturity, not perpetual infancy.
+            </span>
           </p>
           <p>
-            Over the years I&apos;ve sat with people wrestling with big
-            questions, walked alongside new believers, and watched the gospel do
-            what only the gospel can do. This is my attempt to put that teaching
-            somewhere it can keep serving people — long after the conversation
-            ends.
+            That conviction soon grew into a burden: to equip the Body of Christ
+            and raise up disciples who are spiritually mature.
           </p>
           <p>
-            My hope is simple: that everything here would point you back to Jesus
-            and leave you more grounded than it found you.
+            Gospel Grounded is not simply a nice moniker; it&apos;s a war cry
+            against the forces of hell. It&apos;s a cry that exists to build
+            believers who can be confident that they will one day hear the words,
+            &ldquo;Well done, good and faithful servant.&rdquo;
           </p>
         </div>
       </section>

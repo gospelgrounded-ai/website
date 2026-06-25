@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { socials } from '@/lib/site';
 
 const columns = [
   {
@@ -19,13 +20,6 @@ const columns = [
       { href: '/contact#newsletter', label: 'Newsletter' },
     ],
   },
-];
-
-const socials = [
-  { label: 'YouTube', href: '#', icon: 'youtube' },
-  { label: 'Instagram', href: '#', icon: 'instagram' },
-  { label: 'Facebook', href: '#', icon: 'facebook' },
-  { label: 'Spotify', href: '#', icon: 'spotify' },
 ];
 
 function SocialIcon({ icon }: { icon: string }) {
@@ -83,6 +77,8 @@ export default function Footer() {
                 <a
                   key={s.label}
                   href={s.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   aria-label={s.label}
                   className="flex h-9 w-9 items-center justify-center rounded-full border border-line text-muted transition-colors hover:border-brand hover:text-brand"
                 >

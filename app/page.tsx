@@ -1,33 +1,10 @@
 import Link from 'next/link';
 import NewsletterForm from '@/components/NewsletterForm';
+import VideoCard from '@/components/VideoCard';
+import { videos as allVideos } from '@/lib/videos';
+import { stats } from '@/lib/site';
 
-const stats = [
-  { value: '120+', label: 'Teachings published' },
-  { value: '50K+', label: 'Hours watched' },
-  { value: 'Weekly', label: 'New content' },
-  { value: '1', label: 'Gospel, unchanging' },
-];
-
-const videos = [
-  {
-    id: 'placeholder1',
-    title: 'Who Is Jesus, Really? A Gospel Primer',
-    duration: '18:24',
-    category: 'Teaching',
-  },
-  {
-    id: 'placeholder2',
-    title: 'Grace That Goes All The Way Down',
-    duration: '24:10',
-    category: 'Theology',
-  },
-  {
-    id: 'placeholder3',
-    title: 'How To Read Your Bible And Actually Enjoy It',
-    duration: '15:47',
-    category: 'Discipleship',
-  },
-];
+const videos = allVideos.slice(0, 3);
 
 const posts = [
   {
@@ -56,25 +33,6 @@ const posts = [
   },
 ];
 
-function YouTubeThumb({ title, duration }: { title: string; duration: string }) {
-  return (
-    <div className="group relative aspect-video overflow-hidden rounded-2xl border border-line bg-surface">
-      <div className="absolute inset-0 bg-gradient-to-br from-surface2 to-bg" />
-      <div className="absolute inset-0 bg-teal-glow opacity-40" />
-      <div className="absolute inset-0 flex items-center justify-center">
-        <span className="flex h-14 w-14 items-center justify-center rounded-full bg-brand text-bg transition-transform duration-300 group-hover:scale-110">
-          <svg viewBox="0 0 24 24" fill="currentColor" className="ml-0.5 h-6 w-6">
-            <path d="M8 5v14l11-7L8 5Z" />
-          </svg>
-        </span>
-      </div>
-      <span className="absolute bottom-3 right-3 rounded-md bg-bg/80 px-2 py-1 text-xs font-medium text-white backdrop-blur">
-        {duration}
-      </span>
-    </div>
-  );
-}
-
 export default function Home() {
   return (
     <>
@@ -93,9 +51,9 @@ export default function Home() {
               <span className="text-brand">gospel</span>.
             </h1>
             <p className="mx-auto mt-6 max-w-xl text-balance text-lg leading-relaxed text-muted">
-              Clear, gospel-centred teaching for everyday faith. Watch, read, and
-              listen to content that points back to Jesus — wherever you are in
-              the journey.
+              Helping believers grow from spiritual milk to spiritual meat.
+              Clear, daily teaching through Scripture — equipping the Body of
+              Christ for maturity, not perpetual infancy.
             </p>
             <div className="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row">
               <Link
@@ -152,17 +110,7 @@ export default function Home() {
 
         <div className="mt-10 grid gap-6 md:grid-cols-3">
           {videos.map((v) => (
-            <Link key={v.id} href="/watch" className="group block">
-              <YouTubeThumb title={v.title} duration={v.duration} />
-              <div className="mt-4">
-                <span className="text-xs font-semibold uppercase tracking-wider text-brand">
-                  {v.category}
-                </span>
-                <h3 className="mt-1.5 text-lg font-semibold leading-snug transition-colors group-hover:text-brand">
-                  {v.title}
-                </h3>
-              </div>
-            </Link>
+            <VideoCard key={v.id} video={v} />
           ))}
         </div>
       </section>
@@ -231,16 +179,17 @@ export default function Home() {
               About
             </span>
             <h2 className="mt-3 text-3xl font-bold tracking-tight sm:text-4xl">
-              Ordinary words about an extraordinary God
+              A war cry against perpetual infancy
             </h2>
             <p className="mt-5 text-balance leading-relaxed text-muted">
-              Gospel Grounded exists to make the riches of the gospel clear,
-              accessible, and applicable. No hype, no shortcuts — just faithful
-              teaching that takes Scripture seriously and takes you seriously.
+              Gospel Grounded was born from a single, unshakable conviction
+              Webster found in Hebrews 5:12&ndash;14: the Body of Christ was made
+              for maturity, not perpetual infancy.
             </p>
             <p className="mt-4 leading-relaxed text-muted">
-              Whether you&apos;ve walked with Jesus for decades or you&apos;re
-              asking your very first questions, there&apos;s a place for you here.
+              It grew into a burden — to equip the Body of Christ and raise up
+              disciples who are spiritually mature, confident they will one day
+              hear, &ldquo;Well done, good and faithful servant.&rdquo;
             </p>
             <Link
               href="/about"
