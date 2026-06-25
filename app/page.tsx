@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import NewsletterForm from '@/components/NewsletterForm';
 import VideoCard from '@/components/VideoCard';
 import { videos as allVideos } from '@/lib/videos';
@@ -92,11 +93,14 @@ export default function Home() {
       <section className="container-px mx-auto max-w-7xl py-24">
         <div className="grid items-center gap-12 lg:grid-cols-2">
           <div className="relative aspect-[4/5] overflow-hidden rounded-3xl border border-line bg-surface">
-            <div className="absolute inset-0 bg-gradient-to-br from-surface2 via-surface to-bg" />
-            <div className="absolute inset-0 bg-teal-glow-tr opacity-60" />
-            <div className="absolute inset-0 flex items-center justify-center">
-              <span className="text-sm text-muted2">Headshot placeholder</span>
-            </div>
+            <Image
+              src="/webster.png"
+              alt="Webster — founder of Gospel Grounded"
+              fill
+              sizes="(max-width: 1024px) 100vw, 50vw"
+              className="object-cover"
+              priority
+            />
           </div>
           <div>
             <span className="text-xs font-semibold uppercase tracking-wider text-brand">

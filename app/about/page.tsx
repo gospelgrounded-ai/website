@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import Image from 'next/image';
 
 export const metadata: Metadata = {
   title: 'About',
@@ -58,11 +59,14 @@ export default function About() {
               </p>
             </div>
             <div className="relative aspect-[4/5] overflow-hidden rounded-3xl border border-line bg-surface">
-              <div className="absolute inset-0 bg-gradient-to-br from-surface2 via-surface to-bg" />
-              <div className="absolute inset-0 bg-teal-glow-tr opacity-60" />
-              <div className="absolute inset-0 flex items-center justify-center">
-                <span className="text-sm text-muted2">Headshot placeholder</span>
-              </div>
+              <Image
+                src="/webster.png"
+                alt="Webster — founder of Gospel Grounded"
+                fill
+                sizes="(max-width: 1024px) 100vw, 40vw"
+                className="object-cover"
+                priority
+              />
             </div>
           </div>
         </div>
