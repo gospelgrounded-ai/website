@@ -33,26 +33,36 @@ export async function GET(request: Request) {
     const stores = Array.isArray(storesBody?.result) ? storesBody.result : [];
 
     out.stores = await Promise.all(
-      stores.map(async (s: { id: number; name: string }) => {
-        try {
-          const res = await fetch('https://api.printful.com/store/products', {
-            headers: { ...headers, 'X-PF-Store-Id': String(s.id) },
-          });
-          const body = await res.json().catch(() => null);
-          const products = Array.isArray(body?.result) ? body.result : [];
+      stores.map(
+        async (s: { id: number; name: string; type?: string }) => {
+          const storeHeaders = { ...headers, 'X-PF-Store-Id': String(s.id) };
+          const probe = async (path: string) => {
+            try {
+              const res = await fetch(`https://api.printful.com${path}`, {
+                headers: storeHeaders,
+              });
+              const body = await res.json().catch(() => null);
+              const result = Array.isArray(body?.result) ? body.result : [];
+              return {
+                status: res.status,
+                error: body?.error?.message ?? body?.error ?? null,
+                count: result.length,
+                sample: result.slice(0, 3).map((p: { name?: string }) => p.name),
+              };
+            } catch (e) {
+              return { status: 'exception', error: String(e) };
+            }
+          };
+
           return {
             id: s.id,
             name: s.name,
-            status: res.status,
-            productCount: products.length,
-            sampleProducts: products
-              .slice(0, 3)
-              .map((p: { name: string }) => p.name),
+            type: s.type ?? null,
+            syncProducts: await probe('/store/products'),
+            templates: await probe('/product-templates'),
           };
-        } catch (e) {
-          return { id: s.id, name: s.name, error: String(e) };
         }
-      })
+      )
     );
   } catch (e) {
     out.storesError = String(e);
