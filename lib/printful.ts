@@ -25,7 +25,8 @@ function authHeaders(token: string): Record<string, string> {
     'Content-Type': 'application/json',
   };
   // Account-level tokens (multiple stores) must specify which store to use.
-  const storeId = process.env.PRINTFUL_STORE_ID;
+  // Defaults to the "Gospel Grounded" Manual/API store; overridable via env.
+  const storeId = process.env.PRINTFUL_STORE_ID ?? '18407396';
   if (storeId) headers['X-PF-Store-Id'] = storeId;
   return headers;
 }
