@@ -23,38 +23,39 @@ export async function GET(request: Request) {
 
   const headers = { Authorization: `Bearer ${token}` };
 
-  // Which stores can this token see?
+  out.configuredStoreId = process.env.PRINTFUL_STORE_ID ?? null;
+
+  // List stores, then count products in each so we can identify the right one.
   try {
     const storesRes = await fetch('https://api.printful.com/stores', { headers });
     out.storesStatus = storesRes.status;
     const storesBody = await storesRes.json().catch(() => null);
-    out.storesError = storesBody?.error?.message ?? storesBody?.error ?? null;
-    out.storeCount = Array.isArray(storesBody?.result)
-      ? storesBody.result.length
-      : null;
-    out.storeIds = Array.isArray(storesBody?.result)
-      ? storesBody.result.map((s: { id: number; name: string }) => ({
-          id: s.id,
-          name: s.name,
-        }))
-      : null;
+    const stores = Array.isArray(storesBody?.result) ? storesBody.result : [];
+
+    out.stores = await Promise.all(
+      stores.map(async (s: { id: number; name: string }) => {
+        try {
+          const res = await fetch('https://api.printful.com/store/products', {
+            headers: { ...headers, 'X-PF-Store-Id': String(s.id) },
+          });
+          const body = await res.json().catch(() => null);
+          const products = Array.isArray(body?.result) ? body.result : [];
+          return {
+            id: s.id,
+            name: s.name,
+            status: res.status,
+            productCount: products.length,
+            sampleProducts: products
+              .slice(0, 3)
+              .map((p: { name: string }) => p.name),
+          };
+        } catch (e) {
+          return { id: s.id, name: s.name, error: String(e) };
+        }
+      })
+    );
   } catch (e) {
     out.storesError = String(e);
-  }
-
-  // Can we list products with this token as-is?
-  try {
-    const prodRes = await fetch('https://api.printful.com/store/products', {
-      headers,
-    });
-    out.productsStatus = prodRes.status;
-    const prodBody = await prodRes.json().catch(() => null);
-    out.productsError = prodBody?.error?.message ?? prodBody?.error ?? null;
-    out.productCount = Array.isArray(prodBody?.result)
-      ? prodBody.result.length
-      : null;
-  } catch (e) {
-    out.productsError = String(e);
   }
 
   return NextResponse.json(out);

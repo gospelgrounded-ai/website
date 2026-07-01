@@ -19,8 +19,15 @@ export type ShopProduct = {
   variants: ShopVariant[];
 };
 
-function authHeaders(token: string) {
-  return { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' };
+function authHeaders(token: string): Record<string, string> {
+  const headers: Record<string, string> = {
+    Authorization: `Bearer ${token}`,
+    'Content-Type': 'application/json',
+  };
+  // Account-level tokens (multiple stores) must specify which store to use.
+  const storeId = process.env.PRINTFUL_STORE_ID;
+  if (storeId) headers['X-PF-Store-Id'] = storeId;
+  return headers;
 }
 
 /**
