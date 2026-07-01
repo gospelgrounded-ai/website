@@ -87,3 +87,8 @@
     transition: none !important;
   }
 }
+
+/* Hide the cart count badge when the cart is empty. */
+.snipcart-items-count:empty {
+  display: none;
+}

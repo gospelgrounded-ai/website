@@ -65,6 +65,18 @@ export default function Nav() {
         </div>
 
         <div className="flex items-center gap-3">
+          <button
+            type="button"
+            aria-label="Open cart"
+            className="snipcart-checkout relative flex h-10 w-10 items-center justify-center rounded-lg border border-line text-white transition-colors hover:border-brand"
+          >
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className="h-5 w-5">
+              <path d="M6 6h15l-1.5 9h-12L5 3H2" strokeLinecap="round" strokeLinejoin="round" />
+              <circle cx="9" cy="20" r="1.4" fill="currentColor" stroke="none" />
+              <circle cx="18" cy="20" r="1.4" fill="currentColor" stroke="none" />
+            </svg>
+            <span className="snipcart-items-count absolute -right-1.5 -top-1.5 flex h-5 min-w-[1.25rem] items-center justify-center rounded-full bg-brand px-1 text-[10px] font-bold text-bg" />
+          </button>
           <Link
             href="/contact"
             className="hidden rounded-full bg-brand px-5 py-2 text-sm font-semibold text-bg transition-opacity hover:opacity-90 md:inline-flex"
