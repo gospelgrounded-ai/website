@@ -11,9 +11,10 @@ export const metadata: Metadata = {
     'Gospel-centred apparel and resources from Gospel Grounded — printed and shipped on demand.',
 };
 
-// Rendered per request so products always reflect Printful, and so the build
-// never needs the Printful token.
-export const dynamic = 'force-dynamic';
+// Cached and regenerated every 5 minutes (ISR): the page is served instantly
+// from cache — so Snipcart's product-validation crawl never times out — while
+// still picking up Printful changes automatically.
+export const revalidate = 300;
 
 export default async function Shop() {
   const products = await getShopProducts();
