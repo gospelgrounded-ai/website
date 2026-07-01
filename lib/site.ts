@@ -8,6 +8,12 @@ export const site = {
   youtubeChannel: 'https://www.youtube.com/@GospelGrounded',
 };
 
+// Absolute base URL of the live site, used for Snipcart product validation
+// (the crawl URL must be reachable). Override with NEXT_PUBLIC_SITE_URL once
+// the custom domain is live.
+export const siteUrl =
+  process.env.NEXT_PUBLIC_SITE_URL ?? 'https://website-ten-roan-97.vercel.app';
+
 // Snipcart public API key — safe to expose (it ships in the page source).
 // An env var override wins if set, so it can be rotated without a code change.
 export const snipcartPublicKey =

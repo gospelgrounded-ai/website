@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import Image from 'next/image';
 import type { ShopProduct } from '@/lib/printful';
+import { siteUrl } from '@/lib/site';
 
 /**
  * A product card wired to Snipcart. Every variant renders a hidden
@@ -83,7 +84,7 @@ export default function ProductCard({ product }: { product: ShopProduct }) {
               product.variants.length > 1 ? `${product.name} — ${v.name}` : product.name
             }
             data-item-price={v.price}
-            data-item-url="/shop"
+            data-item-url={`${siteUrl}/shop`}
             data-item-image={v.image}
             data-item-quantity="1"
           />
