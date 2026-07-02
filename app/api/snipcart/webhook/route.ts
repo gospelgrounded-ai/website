@@ -8,19 +8,32 @@ import {
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 
-// Verify the request genuinely came from Snipcart. The X-Snipcart-RequestToken
-// is validated with a simple GET handshake against Snipcart's API — the token
-// itself is the credential, so no Authorization header is used.
+// Verify the request genuinely came from Snipcart by validating the
+// X-Snipcart-RequestToken against Snipcart's API. Snipcart authenticates with
+// the Secret API Key as HTTP Basic auth (key as username, empty password).
 async function isValidSnipcartRequest(token: string | null): Promise<boolean> {
   if (!token) {
     console.error('Snipcart webhook: missing request token header');
     return false;
   }
 
+  const secret = process.env.SNIPCART_SECRET_KEY;
+  if (!secret) {
+    console.error('Snipcart webhook: missing SNIPCART_SECRET_KEY');
+    return false;
+  }
+
+  const basicAuth = Buffer.from(`${secret}:`).toString('base64');
+
   try {
     const res = await fetch(
       `https://app.snipcart.com/api/requestvalidation/${token}`,
-      { headers: { Accept: 'application/json' } }
+      {
+        headers: {
+          Accept: 'application/json',
+          Authorization: `Basic ${basicAuth}`,
+        },
+      }
     );
     if (!res.ok) {
       console.error('Snipcart token validation failed', res.status);
