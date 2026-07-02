@@ -26,6 +26,19 @@ export const socials = [
   { label: 'Facebook', handle: 'Gospel Grounded', href: 'https://www.facebook.com/profile.php?id=100089835280726', icon: 'facebook' },
 ];
 
+// Product descriptions, keyed by the exact Printful product name (Printful's
+// API doesn't provide descriptions for sync products, so they live here).
+// Edit these freely — they appear under each product in the shop. A product
+// with no entry simply shows no description.
+export const productDescriptions: Record<string, string> = {
+  'Holy Ground 5 Panel Mid-Profile Baseball Cap':
+    'A clean, structured 5-panel cap with the embroidered ‘Holy Ground’ mark — everyday headwear made to start conversations.',
+  'Holy Ground Hoodie (White)':
+    'A soft, heavyweight hoodie carrying the ‘Holy Ground’ design. Comfortable, considered, and made to wear often.',
+  "'Holy Ground' Men’s box hoodie (Black)":
+    'A premium boxy-fit hoodie with the ‘Holy Ground’ print — a relaxed silhouette with an elevated feel.',
+};
+
 export const stats = [
   { value: '500+', label: 'Teachings published' },
   { value: '240K+', label: 'Views and counting' },

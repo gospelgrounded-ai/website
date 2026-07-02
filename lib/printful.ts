@@ -1,6 +1,8 @@
 // Printful integration. The API token lives ONLY in the Vercel environment
 // (PRINTFUL_API_TOKEN) — never in the repo. Everything here runs server-side.
 
+import { productDescriptions } from '@/lib/site';
+
 const PRINTFUL_API = 'https://api.printful.com';
 
 export type ShopVariant = {
@@ -16,6 +18,7 @@ export type ShopProduct = {
   id: number;
   name: string;
   image: string;
+  description?: string;
   variants: ShopVariant[];
 };
 
@@ -90,10 +93,12 @@ export async function getShopProducts(): Promise<ShopProduct[]> {
 
         if (variants.length === 0) return null;
 
+        const name = syncProduct.name ?? p.name;
         return {
           id: p.id,
-          name: syncProduct.name ?? p.name,
+          name,
           image: syncProduct.thumbnail_url ?? p.thumbnail_url ?? variants[0].image,
+          description: productDescriptions[name],
           variants,
         };
       })

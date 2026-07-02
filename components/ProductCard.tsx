@@ -41,6 +41,12 @@ export default function ProductCard({ product }: { product: ShopProduct }) {
       <div className="flex flex-1 flex-col p-6">
         <h3 className="text-lg font-semibold">{product.name}</h3>
 
+        {product.description && (
+          <p className="mt-2 text-sm leading-relaxed text-muted">
+            {product.description}
+          </p>
+        )}
+
         {hasVariants && (
           <select
             value={selected}
