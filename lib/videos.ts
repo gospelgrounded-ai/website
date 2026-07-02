@@ -26,9 +26,15 @@ function decodeXmlEntities(input: string): string {
     );
 }
 
+// Heuristic: treat anything tagged #short(s) as a Short and exclude it.
+const isShort = (title: string) => /#shorts?\b/i.test(title);
+
 /**
- * Fetch the channel's latest uploads from its public YouTube RSS feed.
- * Cached for an hour (ISR). Falls back to the hardcoded list on any failure.
+ * Fetch the channel's latest long-form uploads from its public YouTube RSS
+ * feed (Shorts filtered out), cached hourly (ISR). Because the feed only
+ * exposes ~15 recent uploads, the curated `videos` list tops up the result so
+ * the page always looks full; the hardcoded list is also the fallback if the
+ * feed is unreachable.
  */
 export async function getLatestVideos(limit = 12): Promise<Video[]> {
   try {
@@ -39,22 +45,24 @@ export async function getLatestVideos(limit = 12): Promise<Video[]> {
     if (!res.ok) return videos.slice(0, limit);
 
     const xml = await res.text();
-    const parsed: Video[] = [];
+    const live: Video[] = [];
 
     for (const entry of xml.split('<entry>').slice(1)) {
       const id = entry.match(/<yt:videoId>(.*?)<\/yt:videoId>/)?.[1];
       const rawTitle = entry.match(/<title>([\s\S]*?)<\/title>/)?.[1];
       const published = entry.match(/<published>(.*?)<\/published>/)?.[1];
-      if (id && rawTitle) {
-        parsed.push({
-          id,
-          title: decodeXmlEntities(rawTitle).trim(),
-          publishedAt: (published ?? '').slice(0, 10),
-        });
-      }
+      if (!id || !rawTitle) continue;
+      const title = decodeXmlEntities(rawTitle).trim();
+      if (isShort(title)) continue;
+      live.push({ id, title, publishedAt: (published ?? '').slice(0, 10) });
     }
 
-    return parsed.length > 0 ? parsed.slice(0, limit) : videos.slice(0, limit);
+    // New long-form uploads first, then the curated list (deduped) to fill.
+    const merged = [...live];
+    for (const v of videos) {
+      if (!merged.some((m) => m.id === v.id)) merged.push(v);
+    }
+    return merged.slice(0, limit);
   } catch {
     return videos.slice(0, limit);
   }
