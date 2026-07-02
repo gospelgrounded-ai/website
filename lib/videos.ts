@@ -1,11 +1,64 @@
-// Real videos from the Gospel Grounded YouTube channel.
-// In Phase 2 these will be managed in the CMS (or pulled live from YouTube).
+// Videos from the Gospel Grounded YouTube channel.
+//
+// `getLatestVideos()` pulls the channel's most recent uploads live from its
+// public RSS feed (no API key needed). The hardcoded `videos` list below is a
+// fallback used only if the feed is unreachable.
 
 export type Video = {
   id: string;
   title: string;
   publishedAt: string;
 };
+
+// Gospel Grounded YouTube channel ID.
+const CHANNEL_ID = 'UC52heP592AzdlBOwZ86jrrQ';
+
+function decodeXmlEntities(input: string): string {
+  return input
+    .replace(/&amp;/g, '&')
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&quot;/g, '"')
+    .replace(/&apos;/g, "'")
+    .replace(/&#(\d+);/g, (_, code: string) => String.fromCharCode(Number(code)))
+    .replace(/&#x([0-9a-fA-F]+);/g, (_, hex: string) =>
+      String.fromCharCode(parseInt(hex, 16))
+    );
+}
+
+/**
+ * Fetch the channel's latest uploads from its public YouTube RSS feed.
+ * Cached for an hour (ISR). Falls back to the hardcoded list on any failure.
+ */
+export async function getLatestVideos(limit = 12): Promise<Video[]> {
+  try {
+    const res = await fetch(
+      `https://www.youtube.com/feeds/videos.xml?channel_id=${CHANNEL_ID}`,
+      { next: { revalidate: 3600 } }
+    );
+    if (!res.ok) return videos.slice(0, limit);
+
+    const xml = await res.text();
+    const parsed: Video[] = [];
+
+    for (const entry of xml.split('<entry>').slice(1)) {
+      const id = entry.match(/<yt:videoId>(.*?)<\/yt:videoId>/)?.[1];
+      const rawTitle = entry.match(/<title>([\s\S]*?)<\/title>/)?.[1];
+      const published = entry.match(/<published>(.*?)<\/published>/)?.[1];
+      if (id && rawTitle) {
+        parsed.push({
+          id,
+          title: decodeXmlEntities(rawTitle).trim(),
+          publishedAt: (published ?? '').slice(0, 10),
+        });
+      }
+    }
+
+    return parsed.length > 0 ? parsed.slice(0, limit) : videos.slice(0, limit);
+  } catch {
+    return videos.slice(0, limit);
+  }
+}
 
 export const videos: Video[] = [
   { id: 'M3BXa54xRQ4', title: 'Did God Actually Change Between the Old and New Testament?', publishedAt: '2026-05-29' },

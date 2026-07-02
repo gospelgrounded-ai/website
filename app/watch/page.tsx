@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import VideoCard from '@/components/VideoCard';
 import Reveal from '@/components/Reveal';
-import { videos } from '@/lib/videos';
+import { getLatestVideos } from '@/lib/videos';
 import { site } from '@/lib/site';
 
 export const metadata: Metadata = {
@@ -10,7 +10,11 @@ export const metadata: Metadata = {
     'Watch gospel-centred teaching from Gospel Grounded — daily walks through Scripture, verse by verse.',
 };
 
-export default function Watch() {
+// Refresh the latest-uploads list hourly.
+export const revalidate = 3600;
+
+export default async function Watch() {
+  const videos = await getLatestVideos(12);
   return (
     <>
       <section className="relative overflow-hidden border-b border-line">

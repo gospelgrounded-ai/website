@@ -3,12 +3,14 @@ import Image from 'next/image';
 import NewsletterForm from '@/components/NewsletterForm';
 import VideoCard from '@/components/VideoCard';
 import Reveal from '@/components/Reveal';
-import { videos as allVideos } from '@/lib/videos';
+import { getLatestVideos } from '@/lib/videos';
 import { stats } from '@/lib/site';
 
-const videos = allVideos.slice(0, 3);
+// Refresh the homepage's latest-teaching videos hourly.
+export const revalidate = 3600;
 
-export default function Home() {
+export default async function Home() {
+  const videos = await getLatestVideos(3);
   return (
     <>
       {/* Hero */}
