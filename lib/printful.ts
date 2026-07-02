@@ -2,6 +2,7 @@
 // (PRINTFUL_API_TOKEN) — never in the repo. Everything here runs server-side.
 
 import { productDescriptions } from '@/lib/site';
+import { getProductDescriptionOverrides } from '@/lib/cms';
 
 const PRINTFUL_API = 'https://api.printful.com';
 
@@ -42,6 +43,9 @@ function authHeaders(token: string): Record<string, string> {
 export async function getShopProducts(): Promise<ShopProduct[]> {
   const token = process.env.PRINTFUL_API_TOKEN;
   if (!token) return [];
+
+  // Descriptions managed in the dashboard override the built-in defaults.
+  const descriptionOverrides = await getProductDescriptionOverrides();
 
   try {
     const listRes = await fetch(`${PRINTFUL_API}/store/products`, {
@@ -98,7 +102,7 @@ export async function getShopProducts(): Promise<ShopProduct[]> {
           id: p.id,
           name,
           image: syncProduct.thumbnail_url ?? p.thumbnail_url ?? variants[0].image,
-          description: productDescriptions[name],
+          description: descriptionOverrides[name] ?? productDescriptions[name],
           variants,
         };
       })

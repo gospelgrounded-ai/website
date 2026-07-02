@@ -7,4 +7,4 @@ export const dataset =
 // Sanity project ID. Lowercase alphanumeric. Override via env in Vercel; the
 // fallback is set here once confirmed from manage.sanity.io.
 export const projectId =
-  process.env.NEXT_PUBLIC_SANITY_PROJECT_ID || 'ojqponpej';
+  process.env.NEXT_PUBLIC_SANITY_PROJECT_ID || 'b3j7gdut';

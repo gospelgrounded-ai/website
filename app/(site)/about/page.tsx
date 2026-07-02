@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import Image from 'next/image';
 import Reveal from '@/components/Reveal';
+import { getAboutContent } from '@/lib/cms';
 
 export const metadata: Metadata = {
   title: 'About',
@@ -9,7 +10,9 @@ export const metadata: Metadata = {
     'The story and beliefs behind Gospel Grounded — faithful, gospel-centred teaching for everyday faith.',
 };
 
-const values = [
+export const revalidate = 60;
+
+const fallbackValues = [
   {
     title: 'Gospel-centred',
     body: 'Everything starts and ends with the finished work of Jesus. The gospel is not just the door — it is the whole house.',
@@ -28,7 +31,7 @@ const values = [
   },
 ];
 
-const beliefs = [
+const fallbackBeliefs = [
   'The Bible is the inspired, trustworthy word of God.',
   'There is one God, eternally Father, Son, and Holy Spirit.',
   'Jesus Christ is fully God and fully man, crucified and risen.',
@@ -37,7 +40,23 @@ const beliefs = [
   'Jesus will return, and his kingdom has no end.',
 ];
 
-export default function About() {
+const fallbackBio = [
+  'Gospel Grounded exists to help believers grow from spiritual milk to spiritual meat. The ministry was born from a single, unshakable conviction — one Webster found waiting for him in Hebrews 5:12–14: the Body of Christ was made for maturity, not perpetual infancy.',
+  'That conviction soon grew into a burden: to equip the Body of Christ and raise up disciples who are spiritually mature.',
+  'Gospel Grounded is not simply a nice moniker; it’s a war cry against the forces of hell. It’s a cry that exists to build believers who can be confident that they will one day hear the words, “Well done, good and faithful servant.”',
+];
+
+export default async function About() {
+  const about = await getAboutContent();
+
+  const heading = about?.heading || 'From milk to meat';
+  const intro =
+    about?.intro ||
+    'Gospel Grounded is a teaching ministry built on a single conviction: the Body of Christ was made for maturity. This is a call to grow up into all that Christ has for you.';
+  const bio = about?.bio?.length ? about.bio : fallbackBio;
+  const values = about?.values?.length ? about.values : fallbackValues;
+  const beliefs = about?.beliefs?.length ? about.beliefs : fallbackBeliefs;
+
   return (
     <>
       {/* Hero */}
@@ -57,15 +76,13 @@ export default function About() {
                 className="mt-4 animate-fade-up text-balance text-4xl font-extrabold leading-[1.08] tracking-tightest sm:text-5xl lg:text-6xl"
                 style={{ animationDelay: '90ms' }}
               >
-                From milk to meat
+                {heading}
               </h1>
               <p
                 className="mt-6 max-w-xl animate-fade-up text-lg leading-relaxed text-muted"
                 style={{ animationDelay: '180ms' }}
               >
-                Gospel Grounded is a teaching ministry built on a single
-                conviction: the Body of Christ was made for maturity. This is a
-                call to grow up into all that Christ has for you.
+                {intro}
               </p>
             </div>
             <div
@@ -88,25 +105,9 @@ export default function About() {
       {/* Bio */}
       <section className="container-px mx-auto max-w-3xl py-20">
         <Reveal className="space-y-5 text-lg leading-relaxed text-muted">
-          <p>
-            Gospel Grounded exists to help believers grow from spiritual milk to
-            spiritual meat. The ministry was born from a single, unshakable
-            conviction —{' '}
-            <span className="text-white">
-              one Webster found waiting for him in Hebrews 5:12&ndash;14: the Body
-              of Christ was made for maturity, not perpetual infancy.
-            </span>
-          </p>
-          <p>
-            That conviction soon grew into a burden: to equip the Body of Christ
-            and raise up disciples who are spiritually mature.
-          </p>
-          <p>
-            Gospel Grounded is not simply a nice moniker; it&apos;s a war cry
-            against the forces of hell. It&apos;s a cry that exists to build
-            believers who can be confident that they will one day hear the words,
-            &ldquo;Well done, good and faithful servant.&rdquo;
-          </p>
+          {bio.map((paragraph, i) => (
+            <p key={i}>{paragraph}</p>
+          ))}
         </Reveal>
       </section>
 

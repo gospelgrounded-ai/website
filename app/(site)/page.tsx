@@ -4,13 +4,25 @@ import NewsletterForm from '@/components/NewsletterForm';
 import VideoCard from '@/components/VideoCard';
 import Reveal from '@/components/Reveal';
 import { getLatestVideos } from '@/lib/videos';
-import { stats } from '@/lib/site';
+import { stats as fallbackStats } from '@/lib/site';
+import { getSiteSettings } from '@/lib/cms';
 
-// Refresh the homepage's latest-teaching videos hourly.
-export const revalidate = 3600;
+export const revalidate = 60;
 
 export default async function Home() {
-  const videos = await getLatestVideos(3);
+  const [videos, settings] = await Promise.all([
+    getLatestVideos(3),
+    getSiteSettings(),
+  ]);
+
+  const heroBadge = settings?.heroBadge || 'Faith · Theology · Gospel teaching';
+  const heroHeading = settings?.heroHeading || 'Stay grounded in the';
+  const heroAccent = settings?.heroHeadingAccent || 'gospel';
+  const heroSubtext =
+    settings?.heroSubtext ||
+    'Helping believers grow from spiritual milk to spiritual meat. Clear, daily teaching through Scripture — equipping the Body of Christ for maturity, not perpetual infancy.';
+  const stats = settings?.stats?.length ? settings.stats : fallbackStats;
+
   return (
     <>
       {/* Hero */}
@@ -24,22 +36,20 @@ export default async function Home() {
               style={{ animationDelay: '0ms' }}
             >
               <span className="h-1.5 w-1.5 rounded-full bg-brand" />
-              Faith · Theology · Gospel teaching
+              {heroBadge}
             </span>
             <h1
               className="mt-7 animate-fade-up text-balance text-5xl font-extrabold leading-[1.05] tracking-tightest sm:text-6xl lg:text-7xl"
               style={{ animationDelay: '90ms' }}
             >
-              Stay grounded in the{' '}
-              <span className="text-brand">gospel</span>.
+              {heroHeading}{' '}
+              <span className="text-brand">{heroAccent}</span>.
             </h1>
             <p
               className="mx-auto mt-6 animate-fade-up text-balance text-lg leading-relaxed text-muted"
               style={{ animationDelay: '180ms' }}
             >
-              Helping believers grow from spiritual milk to spiritual meat.
-              Clear, daily teaching through Scripture — equipping the Body of
-              Christ for maturity, not perpetual infancy.
+              {heroSubtext}
             </p>
             <div
               className="mt-9 flex animate-fade-up flex-col items-center justify-center gap-3 sm:flex-row"

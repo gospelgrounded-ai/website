@@ -9,6 +9,7 @@ const nextConfig = {
       { protocol: 'https', hostname: 'files.cdn.printful.com' },
       { protocol: 'https', hostname: '*.printful.com' },
       { protocol: 'https', hostname: 'printful-upload.s3-accelerate.amazonaws.com' },
+      { protocol: 'https', hostname: 'cdn.sanity.io' },
     ],
   },
 };
