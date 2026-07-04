@@ -105,6 +105,26 @@ export async function getBlogPost(slug: string): Promise<BlogPostFull | null> {
   }
 }
 
+export type Playlist = {
+  title: string;
+  description?: string;
+  spotifyUrl: string;
+};
+
+export async function getPlaylists(): Promise<Playlist[]> {
+  try {
+    return await client.fetch(
+      `*[_type == "playlist" && defined(spotifyUrl)] | order(coalesce(order, 999) asc, _createdAt desc){
+        title, description, spotifyUrl
+      }`,
+      {},
+      { next: { revalidate: 60 } }
+    );
+  } catch {
+    return [];
+  }
+}
+
 export async function getBlogSlugs(): Promise<string[]> {
   try {
     return await client.fetch(
