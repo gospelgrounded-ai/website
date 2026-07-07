@@ -67,6 +67,24 @@ Defined in `tailwind.config.ts` as `brand`, `bg`, `surface`, `surface2`,
 | `NEXT_PUBLIC_SNIPCART_API_KEY`| Snipcart **public** key (optional; a default is in `lib/site.ts`). | no  |
 | `NEXT_PUBLIC_SITE_URL`        | Absolute site URL used for Snipcart product validation.        | no      |
 | `PRINTFUL_AUTO_CONFIRM`       | `true` = auto-submit orders to Printful; unset = create drafts.| no      |
+| `NEXT_PUBLIC_SANITY_PROJECT_ID`| Sanity project ID (defaults to `b3j7gdut` in code).           | no      |
+| `KIT_API_KEY`                 | Kit (ConvertKit) API key for newsletter signups.              | 🔒 yes  |
+| `KIT_FORM_ID`                 | Kit form ID new subscribers are added to.                     | no      |
+| `NEXT_PUBLIC_FORMSPREE_ID`    | Formspree form ID the contact form posts to.                  | no      |
+
+Forms fail soft: without `KIT_*` / `NEXT_PUBLIC_FORMSPREE_ID` set, submissions
+show success to the visitor but aren't delivered until the keys are added. Set
+them, then redeploy.
+
+## SEO & marketing
+
+Auto-generated: `app/sitemap.ts` (`/sitemap.xml`, includes blog slugs),
+`app/robots.ts` (blocks `/studio`), `app/opengraph-image.tsx` (social share
+card), `app/icon.svg` + `app/apple-icon.tsx` (favicons). JSON-LD structured
+data (`components/JsonLd.tsx`) is emitted for Organization/WebSite (site-wide),
+BlogPosting (posts), and Product (shop). Analytics + Speed Insights via
+`@vercel/analytics` and `@vercel/speed-insights` in `app/layout.tsx` (free,
+cookieless — dashboards appear in Vercel).
 
 ## How the shop works
 

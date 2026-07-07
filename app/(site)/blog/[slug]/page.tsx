@@ -3,6 +3,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import PortableTextBody from '@/components/PortableTextBody';
+import JsonLd from '@/components/JsonLd';
 import { getBlogPost, getBlogSlugs } from '@/lib/cms';
 import { urlForImage } from '@/sanity/lib/image';
 
@@ -20,7 +21,20 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const post = await getBlogPost(params.slug);
   if (!post) return { title: 'Post not found' };
-  return { title: post.title, description: post.excerpt };
+  const images = post.coverImage
+    ? [urlForImage(post.coverImage).width(1200).height(630).fit('crop').url()]
+    : undefined;
+  return {
+    title: post.title,
+    description: post.excerpt,
+    openGraph: {
+      title: post.title,
+      description: post.excerpt,
+      type: 'article',
+      images,
+    },
+    twitter: { card: 'summary_large_image', images },
+  };
 }
 
 function formatDate(iso?: string) {
@@ -40,8 +54,23 @@ export default async function BlogPost({
   const post = await getBlogPost(params.slug);
   if (!post) notFound();
 
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: post.title,
+    description: post.excerpt,
+    datePublished: post.publishedAt,
+    image: post.coverImage
+      ? urlForImage(post.coverImage).width(1200).url()
+      : undefined,
+    author: { '@type': 'Person', name: 'Webster' },
+    publisher: { '@type': 'Organization', name: 'Gospel Grounded' },
+    mainEntityOfPage: `https://gospelgrounded.com.au/blog/${post.slug}`,
+  };
+
   return (
     <article className="container-px mx-auto max-w-3xl pb-24 pt-36 sm:pt-40">
+      <JsonLd data={jsonLd} />
       <Link
         href="/blog"
         className="text-sm font-medium text-muted transition-colors hover:text-white"

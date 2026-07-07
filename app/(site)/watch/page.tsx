@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import VideoCard from '@/components/VideoCard';
+import FeaturedVideo from '@/components/FeaturedVideo';
 import Reveal from '@/components/Reveal';
 import { getLatestVideos } from '@/lib/videos';
 import { site } from '@/lib/site';
@@ -14,7 +15,8 @@ export const metadata: Metadata = {
 export const revalidate = 3600;
 
 export default async function Watch() {
-  const videos = await getLatestVideos(12);
+  const videos = await getLatestVideos(13);
+  const [featured, ...rest] = videos;
   return (
     <>
       <section className="relative overflow-hidden border-b border-line">
@@ -44,8 +46,14 @@ export default async function Watch() {
       </section>
 
       <section className="container-px mx-auto max-w-7xl py-16">
+        {featured && (
+          <Reveal className="mx-auto mb-14 max-w-4xl">
+            <FeaturedVideo video={featured} />
+          </Reveal>
+        )}
+
         <div className="grid gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3">
-          {videos.map((v, i) => (
+          {rest.map((v, i) => (
             <Reveal key={v.id} delay={(i % 3) * 110}>
               <VideoCard video={v} />
             </Reveal>

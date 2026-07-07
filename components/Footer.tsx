@@ -113,9 +113,17 @@ export default function Footer() {
           <p className="text-xs text-muted2">
             © {new Date().getFullYear()} Gospel Grounded. All rights reserved.
           </p>
-          <p className="text-xs text-muted2">
-            Built on the gospel · gospelgrounded.com.au
-          </p>
+          <div className="flex items-center gap-5 text-xs text-muted2">
+            <Link href="/privacy" className="transition-colors hover:text-white">
+              Privacy
+            </Link>
+            <Link
+              href="/shipping-returns"
+              className="transition-colors hover:text-white"
+            >
+              Shipping &amp; Returns
+            </Link>
+          </div>
         </div>
       </div>
     </footer>

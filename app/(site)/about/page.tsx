@@ -90,7 +90,7 @@ export default async function About() {
               style={{ animationDelay: '240ms' }}
             >
               <Image
-                src="/webster.png"
+                src="/webster.webp"
                 alt="Webster — founder of Gospel Grounded"
                 fill
                 sizes="(max-width: 1024px) 100vw, 40vw"

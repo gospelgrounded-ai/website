@@ -123,7 +123,7 @@ export default async function Home() {
         <div className="grid items-center gap-12 lg:grid-cols-2">
           <Reveal className="relative aspect-[4/5] overflow-hidden rounded-3xl border border-line bg-surface">
             <Image
-              src="/webster.png"
+              src="/webster.webp"
               alt="Webster — founder of Gospel Grounded"
               fill
               sizes="(max-width: 1024px) 100vw, 50vw"

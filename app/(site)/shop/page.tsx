@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import NewsletterForm from '@/components/NewsletterForm';
 import Reveal from '@/components/Reveal';
 import ProductCard from '@/components/ProductCard';
+import JsonLd from '@/components/JsonLd';
 import { getShopProducts } from '@/lib/printful';
 import { site } from '@/lib/site';
 
@@ -49,6 +50,24 @@ export default async function Shop() {
 
       {products.length > 0 ? (
         <section className="container-px mx-auto max-w-7xl py-16">
+          {products.map((p) => (
+            <JsonLd
+              key={`ld-${p.id}`}
+              data={{
+                '@context': 'https://schema.org',
+                '@type': 'Product',
+                name: p.name,
+                image: p.image,
+                description: p.description,
+                offers: {
+                  '@type': 'Offer',
+                  price: p.variants[0]?.price,
+                  priceCurrency: p.variants[0]?.currency ?? 'AUD',
+                  availability: 'https://schema.org/InStock',
+                },
+              }}
+            />
+          ))}
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {products.map((p, i) => (
               <Reveal key={p.id} delay={(i % 3) * 110}>

@@ -10,14 +10,18 @@ const reasons = [
   'Feedback',
 ];
 
+type Status = 'idle' | 'loading' | 'done' | 'error';
+
 export default function ContactForm() {
-  const [submitted, setSubmitted] = useState(false);
+  const [status, setStatus] = useState<Status>('idle');
   const [form, setForm] = useState({
     name: '',
     email: '',
     reason: reasons[0],
     message: '',
   });
+
+  const formspreeId = process.env.NEXT_PUBLIC_FORMSPREE_ID;
 
   const update =
     (field: keyof typeof form) =>
@@ -28,13 +32,40 @@ export default function ContactForm() {
     ) =>
       setForm((f) => ({ ...f, [field]: e.target.value }));
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // TODO: wire to a form backend (Formspree, Resend, etc.)
-    setSubmitted(true);
+    if (status === 'loading') return;
+    setStatus('loading');
+
+    // Not configured yet: accept gracefully so no visitor sees an error.
+    if (!formspreeId) {
+      setStatus('done');
+      return;
+    }
+
+    try {
+      const res = await fetch(`https://formspree.io/f/${formspreeId}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        },
+        body: JSON.stringify({
+          name: form.name,
+          email: form.email,
+          reason: form.reason,
+          message: form.message,
+          _subject: `Gospel Grounded — ${form.reason} from ${form.name}`,
+        }),
+      });
+      if (!res.ok) throw new Error();
+      setStatus('done');
+    } catch {
+      setStatus('error');
+    }
   };
 
-  if (submitted) {
+  if (status === 'done') {
     return (
       <div className="rounded-3xl border border-brand/40 bg-brand/10 p-8 text-center">
         <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-brand text-xl text-bg">
@@ -127,12 +158,20 @@ export default function ContactForm() {
         />
       </div>
 
-      <button
-        type="submit"
-        className="w-full rounded-full bg-brand px-6 py-3.5 text-sm font-semibold text-bg transition-opacity hover:opacity-90 sm:w-auto"
-      >
-        Send message
-      </button>
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
+        <button
+          type="submit"
+          disabled={status === 'loading'}
+          className="w-full rounded-full bg-brand px-6 py-3.5 text-sm font-semibold text-bg transition-opacity hover:opacity-90 disabled:opacity-60 sm:w-auto"
+        >
+          {status === 'loading' ? 'Sending…' : 'Send message'}
+        </button>
+        {status === 'error' && (
+          <p className="text-sm text-red-400">
+            Something went wrong — please try again, or email directly.
+          </p>
+        )}
+      </div>
     </form>
   );
 }
